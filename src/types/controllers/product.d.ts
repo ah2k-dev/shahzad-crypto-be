@@ -6,7 +6,7 @@ export interface CreateProductBody {
   category: string;
   commissionPercentage: number;
   commissionDays: number;
-  brands: string[];
+  brands: string;
   image?: string;
 }
 
@@ -18,7 +18,7 @@ export interface UpdateProductBody {
   category?: string;
   commissionPercentage?: number;
   commissionDays?: number;
-  brands?: string[];
+  brands?: string;
   image?: string;
 }
 

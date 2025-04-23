@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Node + Express + MongoDB Ts Boilerplate",
-    "description": "API Documentation for Node + Express + MongoDB Ts Boilerplate",
+    "title": "Crypto investor",
+    "description": "API Documentation for Crypto investor",
     "version": "1.0.0"
   },
   "host": "localhost:8000",
@@ -52,19 +52,23 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "RegisterBody",
             "in": "body",
+            "description": "Register a new user",
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 },
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 },
                 "password": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 }
               }
             }
@@ -85,16 +89,19 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "LoginBody",
             "in": "body",
+            "description": "Login a user",
             "schema": {
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 },
                 "password": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 }
               }
             }
@@ -118,13 +125,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "RequestEmailTokenBody",
             "in": "body",
+            "description": "Request an email verification token",
             "schema": {
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 }
               }
             }
@@ -145,16 +154,19 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "VerifyEmailTokenBody",
             "in": "body",
+            "description": "Verify an email token",
             "schema": {
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 },
                 "emailVerificationToken": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 }
               }
             }
@@ -175,13 +187,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "ForgotPasswordBody",
             "in": "body",
+            "description": "Forgot password",
             "schema": {
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 }
               }
             }
@@ -202,19 +216,23 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "ResetPasswordBody",
             "in": "body",
+            "description": "Reset password",
             "schema": {
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 },
                 "passwordResetToken": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 },
                 "password": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 }
               }
             }
@@ -235,16 +253,19 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "UpdatePasswordBody",
             "in": "body",
+            "description": "Update password",
             "schema": {
               "type": "object",
               "properties": {
                 "currentPassword": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 },
                 "newPassword": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "string"
                 }
               }
             }
@@ -265,16 +286,26 @@
     },
     "/auth/removeSessions": {
       "delete": {
+        "tags": [
+          "auth"
+        ],
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "RemoveSessionsBody",
             "in": "body",
+            "description": "Remove sessions",
             "schema": {
               "type": "object",
               "properties": {
                 "sessionIds": {
-                  "example": "any"
+                  "type": "array",
+                  "example": [
+                    "string"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
                 }
               }
             }
@@ -291,6 +322,315 @@
             "description": "Internal Server Error"
           }
         }
+      }
+    },
+    "/products/": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "required": true,
+            "description": "Name of the product",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "required": true,
+            "description": "Description of the product",
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "required": true,
+            "type": "number",
+            "description": "Price of the product"
+          },
+          {
+            "name": "quantity",
+            "in": "formData",
+            "required": true,
+            "type": "number",
+            "description": "Quantity of the product"
+          },
+          {
+            "name": "category",
+            "in": "formData",
+            "required": true,
+            "description": "Category of the product",
+            "type": "string"
+          },
+          {
+            "name": "commissionPercentage",
+            "in": "formData",
+            "required": true,
+            "type": "number",
+            "description": "Commission percentage for the product"
+          },
+          {
+            "name": "commissionDays",
+            "in": "formData",
+            "required": true,
+            "type": "number",
+            "description": "Commission days for the product"
+          },
+          {
+            "name": "brands",
+            "in": "formData",
+            "required": true,
+            "description": "Brands of the product as JSON array",
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "description": "Image of the product"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/products/{productId}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the product to fetch",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the product to update"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "required": false,
+            "description": "Name of the product",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "required": false,
+            "description": "Description of the product",
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "required": false,
+            "type": "number",
+            "description": "Price of the product"
+          },
+          {
+            "name": "quantity",
+            "in": "formData",
+            "required": false,
+            "type": "number",
+            "description": "Quantity of the product"
+          },
+          {
+            "name": "category",
+            "in": "formData",
+            "required": false,
+            "description": "Category of the product",
+            "type": "string"
+          },
+          {
+            "name": "commissionPercentage",
+            "in": "formData",
+            "required": false,
+            "type": "number",
+            "description": "Commission percentage for the product"
+          },
+          {
+            "name": "commissionDays",
+            "in": "formData",
+            "required": false,
+            "type": "number",
+            "description": "Commission days for the product"
+          },
+          {
+            "name": "brands",
+            "in": "formData",
+            "required": false,
+            "description": "Brands of the product as JSON array",
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "description": "Image of the product"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the product to delete",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
       }
     }
   }

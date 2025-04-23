@@ -8,7 +8,7 @@ export interface IProduct extends Document {
   category: string;
   commissionPercentage: number;
   commissionDays: number;
-  brands: string[];
+  brands: [string];
   image: string;
   createdAt: Date;
   updatedAt: Date;

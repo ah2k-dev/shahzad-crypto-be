@@ -11,6 +11,18 @@ import mongoose from 'mongoose';
 //register
 const register: RequestHandler = async (req, res) => {
   // #swagger.tags = ['auth']
+  /*
+    #swagger.parameters['body'] = {
+      in: 'body',
+      name: 'RegisterBody',
+      description: 'Register a new user',
+      schema: {
+        name: 'string',
+        email: 'string',
+        password: 'string'
+      }
+    }
+  */
   try {
     const { name, email, password } = req.body as authTypes.RegisterBody;
     const user: IUser | null = await User.findOne({ email });
@@ -46,6 +58,16 @@ const register: RequestHandler = async (req, res) => {
 //request email verification token
 const requestEmailToken: RequestHandler = async (req, res) => {
   // #swagger.tags = ['auth']
+  /*
+    #swagger.parameters['body'] = {
+      in: 'body',
+      name: 'RequestEmailTokenBody',
+      description: 'Request an email verification token',
+      schema: {
+        email: 'string'
+      }
+    }
+  */
 
   try {
     const { email } = req.body as authTypes.RequestEmailTokenBody;
@@ -92,7 +114,17 @@ const requestEmailToken: RequestHandler = async (req, res) => {
 //verify email token
 const verifyEmail: RequestHandler = async (req, res) => {
   // #swagger.tags = ['auth']
-
+  /*
+    #swagger.parameters['body'] = {
+      in: 'body',
+      name: 'VerifyEmailTokenBody',
+      description: 'Verify an email token',
+      schema: {
+        email: 'string',
+        emailVerificationToken: 'string'
+      }
+    }
+  */
   try {
     const { email, emailVerificationToken } =
       req.body as authTypes.VerifyEmailTokenBody;
@@ -139,6 +171,17 @@ const verifyEmail: RequestHandler = async (req, res) => {
 //login
 const login: RequestHandler = async (req, res) => {
   // #swagger.tags = ['auth']
+  /*
+    #swagger.parameters['body'] = {
+      in: 'body',
+      name: 'LoginBody',
+      description: 'Login a user',
+      schema: {
+        email: 'string',
+        password: 'string'
+      }
+    }
+  */
   try {
     const { email, password } = req.body as authTypes.LoginBody;
     console.log(email, password);
@@ -160,14 +203,14 @@ const login: RequestHandler = async (req, res) => {
           res
         });
       }
-      if (!user.emailVerified) {
-        return ErrorHandler({
-          message: 'Email not verified',
-          statusCode: 400,
-          req,
-          res
-        });
-      }
+      // if (!user.emailVerified) {
+      //   return ErrorHandler({
+      //     message: 'Email not verified',
+      //     statusCode: 400,
+      //     req,
+      //     res
+      //   });
+      // }
       req.logIn(user, (err) => {
         if (err) {
           return ErrorHandler({
@@ -229,7 +272,16 @@ const logout: RequestHandler = async (req, res) => {
 //forgot password
 const forgotPassword: RequestHandler = async (req, res) => {
   // #swagger.tags = ['auth']
-
+  /*
+    #swagger.parameters['body'] = {
+      in: 'body',
+      name: 'ForgotPasswordBody',
+      description: 'Forgot password',
+      schema: {
+        email: 'string'
+      }
+    }
+  */
   try {
     const { email } = req.body as authTypes.RequestEmailTokenBody;
     const user: IUser | null = await User.findOne({ email });
@@ -271,7 +323,18 @@ const forgotPassword: RequestHandler = async (req, res) => {
 //reset password
 const resetPassword: RequestHandler = async (req, res) => {
   // #swagger.tags = ['auth']
-
+  /*
+    #swagger.parameters['body'] = {
+      in: 'body',
+      name: 'ResetPasswordBody',
+      description: 'Reset password',
+      schema: {
+        email: 'string',
+        passwordResetToken: 'string',
+        password: 'string'
+      }
+    }
+  */
   try {
     const { email, passwordResetToken, password } =
       req.body as authTypes.ResetPasswordBody;
@@ -320,7 +383,17 @@ const resetPassword: RequestHandler = async (req, res) => {
 //update password
 const updatePassword: RequestHandler = async (req, res) => {
   // #swagger.tags = ['auth']
-
+  /*
+    #swagger.parameters['body'] = {
+      in: 'body',
+      name: 'UpdatePasswordBody',
+      description: 'Update password',
+      schema: {
+        currentPassword: 'string',
+        newPassword: 'string'
+      }
+    }
+  */
   try {
     const { currentPassword, newPassword } =
       req.body as authTypes.UpdatePasswordBody;
@@ -406,6 +479,17 @@ const me: RequestHandler = async (req, res) => {
 };
 
 const removeSessions: RequestHandler = async (req, res) => {
+  // #swagger.tags = ['auth']
+  /*
+    #swagger.parameters['body'] = {
+      in: 'body',
+      name: 'RemoveSessionsBody',
+      description: 'Remove sessions',
+      schema: {
+        sessionIds: ['string']
+      }
+    }
+  */
   try {
     const { sessionIds } = req.body as authTypes.RemoveSessionsBody;
     const user = req.user;

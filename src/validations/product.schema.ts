@@ -1,5 +1,5 @@
 import Joi from 'joi';
-
+import { validateParsedJSON } from '../utils/joiExtensions';
 const createProduct = Joi.object({
   name: Joi.string().min(3).required(),
   description: Joi.string().min(10).required(),
@@ -8,7 +8,7 @@ const createProduct = Joi.object({
   category: Joi.string().required(),
   commissionPercentage: Joi.number().min(0).max(100).required(),
   commissionDays: Joi.number().min(0).required(),
-  brands: Joi.array().items(Joi.string()).min(1).required()
+  brands: validateParsedJSON('array', Joi.array().items(Joi.string())),
   // Image is handled by multer middleware
 });
 
@@ -20,7 +20,7 @@ const updateProduct = Joi.object({
   category: Joi.string(),
   commissionPercentage: Joi.number().min(0).max(100),
   commissionDays: Joi.number().min(0),
-  brands: Joi.array().items(Joi.string()).min(1)
+  brands: validateParsedJSON('array', Joi.array().items(Joi.string())),
   // Image is handled by multer middleware
 }).min(1);
 

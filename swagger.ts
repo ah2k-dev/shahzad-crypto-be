@@ -3,9 +3,9 @@ import { SwaggerDoc } from './src/types/generalTypes'; // Ensure this path is co
 
 const doc: SwaggerDoc = {
   info: {
-    title: 'Node + Express + MongoDB Ts Boilerplate',
+    title: 'Crypto investor',
     description:
-      'API Documentation for Node + Express + MongoDB Ts Boilerplate',
+      'API Documentation for Crypto investor',
     version: '1.0.0'
   },
   host: process.env.BE_URL || 'localhost:8000',

@@ -4,14 +4,68 @@ import { IProduct } from '../types/models/product';
 import * as productTypes from '../types/controllers/product';
 import SuccessHandler from '../utils/successHandler';
 import ErrorHandler from '../utils/errorHandler';
-import mongoose from 'mongoose';
+import mongoose, { FilterQuery } from 'mongoose';
 import { deleteFile } from '../utils/multerConfig';
-import fs from 'fs';
-import path from 'path';
+// import fs from 'fs';
+// import path from 'path';
 
 // Create a new product
 const createProduct: RequestHandler = async (req, res) => {
-  // #swagger.tags = ['products']
+  // #swagger.tags = ['Products']
+  // #swagger.security = [{ "SessionAuth": [] }]
+  /*
+      #swagger.auto = false
+      #swagger.parameters['name'] = {
+        in: 'formData',
+        required: true,
+        description: 'Name of the product',
+      }
+      #swagger.parameters['description'] = {
+        in: 'formData',
+        required: true,
+        description: 'Description of the product',
+      }
+      #swagger.parameters['price'] = {
+        in: 'formData',
+        required: true,
+        type: 'number',
+        description: 'Price of the product',
+      }
+      #swagger.parameters['quantity'] = {
+        in: 'formData',
+        required: true,
+        type: 'number',
+        description: 'Quantity of the product',
+      }
+      #swagger.parameters['category'] = {
+        in: 'formData',
+        required: true,
+        description: 'Category of the product',
+      }
+      #swagger.parameters['commissionPercentage'] = {
+        in: 'formData',
+        required: true,
+        type: 'number',
+        description: 'Commission percentage for the product',
+      }
+      #swagger.parameters['commissionDays'] = {
+        in: 'formData',
+        required: true,
+        type: 'number',
+        description: 'Commission days for the product',
+      }
+      #swagger.parameters['brands'] = {
+        in: 'formData',
+        required: true,
+        description: 'Brands of the product as JSON array',
+      }
+      #swagger.parameters['image'] = {
+        in: 'formData',
+        required: false,
+        type: 'file',
+        description: 'Image of the product',
+      }
+  */
   try {
     const {
       name,
@@ -35,7 +89,7 @@ const createProduct: RequestHandler = async (req, res) => {
       category,
       commissionPercentage,
       commissionDays,
-      brands,
+      brands: JSON.parse(brands),
       image
     });
 
@@ -61,7 +115,8 @@ const createProduct: RequestHandler = async (req, res) => {
 
 // Get all products with filtering, search and pagination
 const getAllProducts: RequestHandler = async (req, res) => {
-  // #swagger.tags = ['products']
+  // #swagger.tags = ['Products']
+  // #swagger.security = [{ "SessionAuth": [] }]
   try {
     const {
       page = '1',
@@ -78,7 +133,7 @@ const getAllProducts: RequestHandler = async (req, res) => {
     const skip = (pageNumber - 1) * limitNumber;
 
     // Build filter object
-    const filter: any = {};
+    const filter: FilterQuery<IProduct> = {};
 
     // Search by name or description
     if (search) {
@@ -115,9 +170,17 @@ const getAllProducts: RequestHandler = async (req, res) => {
     const totalProducts = await Product.countDocuments(filter);
     const totalPages = Math.ceil(totalProducts / limitNumber);
 
+    const categoryOptions = await Product.distinct('category');
+    const brandOptions = await Product.distinct('brands');
+
+
     return SuccessHandler({
       data: {
         products,
+        filterOptions: {
+          categoryOptions,
+          brandOptions
+        },
         pagination: {
           currentPage: pageNumber,
           totalPages,
@@ -141,7 +204,19 @@ const getAllProducts: RequestHandler = async (req, res) => {
 
 // Get a single product by ID
 const getProduct: RequestHandler = async (req, res) => {
-  // #swagger.tags = ['products']
+  // #swagger.tags = ['Products']
+  // #swagger.security = [{ "SessionAuth": [] }]
+  /* 
+      #swagger.parameters['productId'] = {
+        in: 'path',
+        name: 'productId',
+        required: true,
+        description: 'ID of the product to fetch',
+        schema: {
+          type: 'string'
+        }
+      }
+  */
   try {
     const { productId } = req.params as unknown as productTypes.ProductIdParam;
 
@@ -182,7 +257,66 @@ const getProduct: RequestHandler = async (req, res) => {
 
 // Update a product
 const updateProduct: RequestHandler = async (req, res) => {
-  // #swagger.tags = ['products']
+  // #swagger.tags = ['Products']
+  // #swagger.security = [{ "SessionAuth": [] }]
+  /*
+      #swagger.auto = false
+      #swagger.parameters['productId'] = {
+        in: 'path',
+        required: true,
+        description: 'ID of the product to update',
+      }
+      #swagger.parameters['name'] = {
+        in: 'formData',
+        required: false,
+        description: 'Name of the product',
+      }
+      #swagger.parameters['description'] = {
+        in: 'formData',
+        required: false,
+        description: 'Description of the product',
+      }
+      #swagger.parameters['price'] = {
+        in: 'formData',
+        required: false,
+        type: 'number',
+        description: 'Price of the product',
+      }
+      #swagger.parameters['quantity'] = {
+        in: 'formData',
+        required: false,
+        type: 'number',
+        description: 'Quantity of the product',
+      }
+      #swagger.parameters['category'] = {
+        in: 'formData',
+        required: false,
+        description: 'Category of the product',
+      }
+      #swagger.parameters['commissionPercentage'] = {
+        in: 'formData',
+        required: false,
+        type: 'number',
+        description: 'Commission percentage for the product',
+      }
+      #swagger.parameters['commissionDays'] = {
+        in: 'formData',
+        required: false,
+        type: 'number',
+        description: 'Commission days for the product',
+      }
+      #swagger.parameters['brands'] = {
+        in: 'formData',
+        required: false,
+        description: 'Brands of the product as JSON array',
+      }
+      #swagger.parameters['image'] = {
+        in: 'formData',
+        required: false,
+        type: 'file',
+        description: 'Image of the product',
+      }
+  */
   try {
     const { productId } = req.params as unknown as productTypes.ProductIdParam;
     const updateData = req.body as productTypes.UpdateProductBody;
@@ -225,7 +359,10 @@ const updateProduct: RequestHandler = async (req, res) => {
 
     const product = await Product.findByIdAndUpdate(
       productId,
-      { $set: updateData },
+      { $set: {
+        ...updateData,
+        brands: updateData.brands ? JSON.parse(updateData.brands) : existingProduct.brands
+      } },
       { new: true, runValidators: true }
     );
 
@@ -251,7 +388,19 @@ const updateProduct: RequestHandler = async (req, res) => {
 
 // Delete a product
 const deleteProduct: RequestHandler = async (req, res) => {
-  // #swagger.tags = ['products']
+  // #swagger.tags = ['Products']
+  // #swagger.security = [{ "SessionAuth": [] }]
+  /* 
+      #swagger.parameters['productId'] = {
+        in: 'path',
+        name: 'productId',
+        required: true,
+        description: 'ID of the product to delete',
+        schema: {
+          type: 'string'
+        }
+      }
+  */
   try {
     const { productId } = req.params as unknown as productTypes.ProductIdParam;
 

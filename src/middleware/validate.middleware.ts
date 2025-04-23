@@ -5,6 +5,7 @@ type ValidationType = 'body' | 'params' | 'query';
 
 export const validate = (schema: AnySchema, type: ValidationType = 'body') => {
   return (req: Request, res: Response, next: NextFunction) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let dataToValidate: any;
     
     switch (type) {
