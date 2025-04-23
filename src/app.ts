@@ -14,6 +14,7 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import { captureLastActive } from './middleware/userAgent.middleware';
 import { CookieOptions } from 'express-session';
+import path from 'path';
 
 const app = express();
 const cookieOptions: CookieOptions = {
@@ -47,6 +48,9 @@ app.use(session({
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI, stringify: false,  }),
   cookie: cookieOptions
 }));
+
+// Serve static files from uploads directory
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.use(passport.initialize());
 app.use(passport.session());
