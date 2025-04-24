@@ -522,3 +522,10 @@
 {"date":"2025-04-23T15:47:22.009Z","level":"info","message":"Request received","method":"GET","service":"user-service","url":"/products/68090b5cbd9e31050406f6e7"}
 {"date":"2025-04-23T15:47:44.593Z","level":"info","message":"Request received","method":"PUT","service":"user-service","url":"/products/68090b5cbd9e31050406f6e7"}
 {"date":"2025-04-23T15:47:56.532Z","level":"info","message":"Request received","method":"PUT","service":"user-service","url":"/products/68090b5cbd9e31050406f6e7"}
+{"date":"2025-04-23T16:07:41.274Z","level":"info","message":"Request received","method":"GET","service":"user-service","url":"/api-docs/"}
+{"date":"2025-04-23T16:07:42.119Z","level":"info","message":"Request received","method":"GET","service":"user-service","url":"/api-docs/swagger-ui.css"}
+{"date":"2025-04-23T16:07:42.122Z","level":"info","message":"Request received","method":"GET","service":"user-service","url":"/api-docs/swagger-ui-bundle.js"}
+{"date":"2025-04-23T16:07:42.124Z","level":"info","message":"Request received","method":"GET","service":"user-service","url":"/api-docs/swagger-ui-standalone-preset.js"}
+{"date":"2025-04-23T16:07:42.126Z","level":"info","message":"Request received","method":"GET","service":"user-service","url":"/api-docs/swagger-ui-init.js"}
+{"date":"2025-04-23T16:07:44.401Z","level":"info","message":"Request received","method":"GET","service":"user-service","url":"/api-docs/favicon-32x32.png"}
+{"date":"2025-04-23T16:07:45.243Z","level":"info","message":"Request received","method":"GET","service":"user-service","url":"/api-docs/favicon-32x32.png"}

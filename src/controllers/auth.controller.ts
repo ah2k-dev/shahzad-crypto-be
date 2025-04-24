@@ -8,6 +8,46 @@ import * as authTypes from '../types/controllers/auth';
 import passport from 'passport';
 import { captureUserAgent } from '../middleware/userAgent.middleware';
 import mongoose from 'mongoose';
+
+//check user exists
+const checkUserExists: RequestHandler = async (req, res) => {
+  // #swagger.tags = ['auth']
+  /*
+    #swagger.parameters['body'] = {
+      in: 'body',
+      name: 'CheckUserExistsBody',
+      description: 'Check if a user exists',
+      schema: {
+        email: 'string'
+      }
+    }
+  */
+  try {
+    const { email } = req.body as authTypes.CheckUserExistsBody;
+    const user: IUser | null = await User.findOne({ email });
+    if (user) {
+      return ErrorHandler({
+        message: 'User already exists',
+        statusCode: 400,
+        req,
+        res
+      });
+    }
+    return SuccessHandler({
+      data: 'Proceed',
+      statusCode: 200,
+      res
+    }); 
+  } catch (error) {
+    return ErrorHandler({
+      message: (error as Error).message,
+      statusCode: 500,
+      req,
+      res
+    });
+  }
+};
+
 //register
 const register: RequestHandler = async (req, res) => {
   // #swagger.tags = ['auth']
@@ -535,5 +575,6 @@ export {
   forgotPassword,
   resetPassword,
   updatePassword,
-  removeSessions
+  removeSessions,
+  checkUserExists
 };

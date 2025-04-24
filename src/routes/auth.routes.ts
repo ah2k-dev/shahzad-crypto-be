@@ -23,6 +23,10 @@ router
   .route('/forgotPassword')
   .post(validate(schema.requestEmailToken), auth.forgotPassword);
 
+router
+  .route('/checkUserExists')
+  .post(validate(schema.checkUserExists), auth.checkUserExists);
+
 // PUT routes
 router
   .route('/resetPassword')

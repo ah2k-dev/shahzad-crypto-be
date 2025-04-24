@@ -33,6 +33,10 @@ interface RemoveSessionsBody {
   sessionIds: string[];
 }
 
+interface CheckUserExistsBody {
+  email: string;
+}
+
 export {
   RegisterBody,
   RequestEmailTokenBody,
@@ -40,5 +44,6 @@ export {
   LoginBody,
   ResetPasswordBody,
   UpdatePasswordBody,
-  RemoveSessionsBody
+  RemoveSessionsBody,
+  CheckUserExistsBody,
 };

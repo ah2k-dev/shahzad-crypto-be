@@ -47,6 +47,10 @@ const removeSessions = Joi.object({
   sessionIds: Joi.array().items(Joi.string()).min(1).required()
 });
 
+const checkUserExists = Joi.object({
+  email: Joi.string().email().required()
+});
+
 export {
   register,
   requestEmailToken,
@@ -54,5 +58,6 @@ export {
   login,
   resetPassword,
   updatePassword,
-  removeSessions
+  removeSessions,
+  checkUserExists
 };
